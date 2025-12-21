@@ -1,4 +1,5 @@
 import pandas as pd
+from etl.transform.fhir_mapper import fhir_to_model
 
 # List of all columns the model expects
 EXPECTED_COLS = [
