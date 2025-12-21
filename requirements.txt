@@ -4,7 +4,7 @@ scikit-learn
 streamlit
 fastapi
 uvicorn
-sqalachemy
+sqlalchemy
 psycopg2-binary
 pydantic
 matplotlib
