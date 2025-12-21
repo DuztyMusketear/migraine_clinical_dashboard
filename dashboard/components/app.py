@@ -15,8 +15,6 @@ PROCESSED_DATA_PATH =  os.path.join(BASE_DIR, "data", "processed", "processed_eh
 
 #Run ETL pipeline
 processed_df = run_pipeline()
-if processed_df is None:
-    processed_df = pd.read_csv(PROCESSED_DATA_PATH)
 
 #Load Model
 model = joblib.load(MODEL_PATH)
@@ -32,11 +30,16 @@ selected_patient = st.selectbox("Select a patient", patient_options)
 patient_row = processed_df[processed_df['patient_id'] == selected_patient]
 
 #Features for prediction
-X_patinet = patient_row.drop(columns=['patient_id', 'Visual'], errors='ignore')
+FEATURE_COLS = model.feature_names_in_
+X_patient = patient_row[FEATURE_COLS]
 
 #Make prediction
-prediction = model.predict(X_patinet)[0]
-st.write(f"Predicted Visual Aura: {prediction}")
+prediction = model.predict(X_patient)[0]
+prediction_proba = model.predict_proba(X_patient)[0][1]
+
+
+st.metric("Predicted Visual Aura", int(prediction))
+st.progress(float(prediction_proba))
 
 st.subheader("Patient Data")
 st.dataframe(patient_row)
