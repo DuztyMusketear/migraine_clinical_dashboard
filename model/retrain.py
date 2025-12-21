@@ -3,8 +3,10 @@ import json
 import joblib
 from datetime import datetime
 from sklearn.linear_model import LogisticRegression
+from model.drift import population_stability_index
+from model.metrics import log_metrics
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 MODEL_DIR = os.path.join(BASE_DIR, "model")
 REGISTRY_PATH = os.path.join(MODEL_DIR, "registry.json")
 
@@ -23,9 +25,29 @@ def retrain_model(df):
     version_dir = os.path.join(MODEL_DIR, version)
     os.makedirs(version_dir, exist_ok=True)
 
+    # Attach metadata
+    model._version = version
+    model._trained_at = datetime.utcnow().isoformat()
+    model.feature_names_in_ = X.columns.to_list()
+
+    #Save Model
     model_path = os.path.join(version_dir, "logistic_model.joblib")
     joblib.dump(model, model_path)
-    print(f"Saved new model version: {model_path}")
+
+    # Drift (PSI) Calculation
+    baseline = X.iloc[: len(X)//2]
+    current = X.iloc[len(X)//2 :]
+
+    psi_scores = {
+        f"PSI_{col}": population_stability_index(
+            baseline[col],
+            current[col]
+        )
+        for col in X.columns
+    }
+
+    log_metrics(version, psi_scores)
+
 
     # Update registry.json
     if os.path.exists(REGISTRY_PATH):
@@ -35,11 +57,15 @@ def retrain_model(df):
         registry = {}
 
     registry.setdefault("versions", [])
-    registry["versions"].append(version)
+
+    if version not in registry["versions"]:
+        registry["versions"].append(version)
+
     registry["active"] = version
+    registry["last_updated"] = datetime.utcnow().isoformat()
 
     with open(REGISTRY_PATH, "w") as f:
         json.dump(registry, f, indent=4)
 
-    print(f"Updated registry.json with active version: {version}")
+    print(f"Model retrained and activated: {version}")
     return model
