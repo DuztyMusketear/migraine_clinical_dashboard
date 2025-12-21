@@ -7,6 +7,7 @@ import os
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.append(BASE_DIR)
 
+from dotenv import load_dotenv
 from etl.run_pipeline import run_pipeline
 from model.retrain import retrain_model
 from model.metrics import load_metrics
@@ -14,6 +15,9 @@ from predict.model_loader import load_active_model, get_active_version
 from predict.feature_summary import global_feature_summary, patient_feature_contribution
 from dashboard.components.metrics_tab import render_metrics_tab
 
+load_dotenv()
+admin_username = os.getenv("ADMIN_USERNAME")
+admin_password = os.getenv("ADMIN_PASSWORD")
 if "is_admin" not in st.session_state:
     st.session_state.is_admin = False
 
@@ -46,11 +50,6 @@ st.title("Migraine Prediction Dashboard")
 st.caption(f"Active Model Version: `{get_active_version()}`")
 
 
-# ----------------------------
-# Admin Authentication
-# ----------------------------
-admin_username = "admin"
-admin_password = "password123"
 
 # ----------------------------
 # Admin Controls
@@ -140,12 +139,20 @@ with tab3:
 with tab_login:
     st.subheader("Admin")
 
+   
+
     if st.session_state.is_admin:
         st.success("You are logged in as Admin")
         if st.button("Logout"):
             st.session_state.is_admin = False
             st.rerun()
     else:
+        # Display demo credentials
+        st.markdown(
+        f"**Demo Credentials:**  \n"
+        f"- Username: `{admin_username}`  \n"
+        f"- Password: `{admin_password}`"
+    )
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
 
