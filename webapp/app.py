@@ -91,10 +91,16 @@ def index():
     global_feature_imp = global_feature_summary(model)
     active_version = get_active_version()
 
+    # --- Metrics / PSI ---
+    metrics_table = []
+    max_psi = 0
+    metrics_available = False
+    metric_options = []
+    metrics_chart = None
+    psi_values = {}  # define this here so it's always available
+
     if is_admin:
         metrics_registry = load_metrics()  # load all versions
-        metrics_table = []
-        psi_values = {}
         all_keys = set()  # collect all keys (Accuracy, AUC, PSI_...)
 
         if metrics_registry:
@@ -140,7 +146,7 @@ def index():
                 color="version",
                 title=f"{metric_to_plot} Over Time"
             )
-            metrics_chart = fig.to_html(full_html=False)
+            metrics_chart = fig.to_html(full_html=False, include_plotlyjs='cdn', config={'responsive': True})
     
 
     return render_template(

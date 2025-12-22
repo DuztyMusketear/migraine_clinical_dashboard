@@ -16,7 +16,9 @@
   <p>Probability: {{ probability|round(3) }}</p>
 
   <h5>Patient Data</h5>
-  {{ patient_row.to_html(classes="table table-striped")|safe }}
+  <div style="overflow-x:auto;">
+    {{ patient_row.to_html(classes="table table-striped table-sm")|safe }}
+  </div>
 {% else %}
   <p class="text-muted mt-3">No patient selected.</p>
 {% endif %}
