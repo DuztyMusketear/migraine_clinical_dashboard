@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="patient-tab" data-bs-toggle="tab" href="#patient" role="tab">Patient Prediction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="feature-tab" data-bs-toggle="tab" href="#feature" role="tab">Feature Analysis</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="metrics-tab" data-bs-toggle="tab" href="#metrics" role="tab">Model Metrics</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="admin-tab" data-bs-toggle="tab" href="#admin" role="tab">Admin</a>
+  </li>
+</ul>
+
+<div class="tab-content mt-3">
+  <div class="tab-pane fade show active" id="patient" role="tabpanel">
+    {% include 'patient.html' %}
+  </div>
+  <div class="tab-pane fade" id="feature" role="tabpanel">
+    {% include 'feature.html' %}
+  </div>
+  <div class="tab-pane fade" id="metrics" role="tabpanel">
+    {% include 'metrics.html' %}
+  </div>
+  <div class="tab-pane fade" id="admin" role="tabpanel">
+    {% include 'admin.html' %}
+  </div>
+</div>
+
+{% endblock %}

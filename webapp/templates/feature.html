@@ -1,0 +1,9 @@
+{% if has_patient %}
+  <h5>Feature Contributions for Patient {{ selected_patient }}</h5>
+  {{ feature_contrib.to_html(classes="table table-striped")|safe }}
+
+  <h5 class="mt-4">Global Feature Importance (Odds Ratios)</h5>
+  {{ global_feature_imp.to_html(classes="table table-striped")|safe }}
+{% else %}
+  <p class="text-muted">Select a patient to view feature analysis.</p>
+{% endif %}
