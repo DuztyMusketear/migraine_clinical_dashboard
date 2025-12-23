@@ -18,7 +18,7 @@ def patient_feature_contribution(model, X_patient):
     """Returns DataFrame showning contribution of each feature"""
 
     FEATURE_COLS = model.feature_names_in_
-    log_odds = X_patient.iloc[0] * model.coef_[0]
+    log_odds = X_patient.iloc[0].values * model.coef_[0]
     df = pd.DataFrame({
         "Feature": FEATURE_COLS,
         "Contribution": log_odds
