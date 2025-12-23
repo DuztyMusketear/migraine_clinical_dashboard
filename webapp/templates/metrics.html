@@ -1,4 +1,3 @@
-<h3>Model Performance Over Time</h3>
 {% if not is_admin %}
   <div class="alert alert-info">⚠️ Sign in as admin to access metrics.</div>
 
@@ -47,17 +46,47 @@
       </select>
     </form>
   </div>
-
+  
   <!-- Plotly chart -->
   {% if metrics_chart %}
-    <div id="metrics-chart-wrapper" style="overflow-x:auto;">
-      {{ metrics_chart | safe }}
-    </div>
+    <div class="d-flex justify-content-center mb-4">
+      <div id="metrics-chart-wrapper" style="overflow-x:auto; max-width: 800px; width: 100%;">
+        {{ metrics_chart | safe }}
+      </div>
+  </div>
   {% endif %}
 
   <hr>
+   <!-- Feature-level PSI Table (Collapsible) -->
+  <div class="mx-auto mb-4" style="max-width: 800px; text-align: center;">
+    <button class="btn btn-outline-secondary mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#psiCollapse" aria-expanded="false" aria-controls="psiCollapse">
+      View Feature-Level Drift (PSI)
+    </button>
 
-  <h5>Raw Metrics Table</h5>
+    <div class="collapse" id="psiCollapse">
+      <div class="card card-body mt-2" style="overflow-x:auto;">
+        <table class="table table-striped table-sm text-center">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>PSI</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for feature, psi in psi_values.items() %}
+            <tr>
+              <td>{{ feature }}</td>
+              <td>{{ '%.3f'|format(psi) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <h5>Model Performance Over Time</h5>
   <div style="max-height: 400px; overflow-y: auto; overflow-x: auto;">
     <table class="table table-striped table-sm">
       <thead>
