@@ -31,12 +31,16 @@
       </thead>
       <tbody>
         {% for _, row in global_feature_imp.iterrows() %}
-          <tr>
-            <td>{{ row.Feature }}</td>
-            <td class="text-center">{{ row.Coeffiecient|round(3) }}</td>
-            <td class="text-center">{{ row.Odds_Ratio|round(3) }}</td>
-          </tr>
-        {% endfor %}
+            <tr>
+              <td>{{ row.Feature }}</td>
+              <td class="text-center">
+                {{ row.Coefficient | default(0) | round(3) }}
+              </td>
+              <td class="text-center">
+                {{ row.Odds_Ratio | default(1) | round(3) }}
+              </td>
+            </tr>
+          {% endfor %}
       </tbody>
     </table>
   </div>

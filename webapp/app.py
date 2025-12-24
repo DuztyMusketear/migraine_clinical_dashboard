@@ -35,6 +35,7 @@ def metrics():
     metrics_table = []
     max_psi = 0
     metrics_registry = load_metrics()
+    psi_values = {}
     if metrics_registry:
         for version, snapshots in metrics_registry.items():
             for snap in snapshots:
@@ -50,7 +51,9 @@ def metrics():
         max_psi=max_psi,
         metrics_available=bool(metrics_table),
         metric_options=[k for k in metrics_table[0].keys() if k not in ("timestamp", "version")] if metrics_table else [],
-        metrics_chart=None
+        metrics_chart=None,
+        psi_values=psi_values,
+        is_admin=is_admin
     )
 
 @app.route("/", methods=["GET", "POST"])
@@ -190,27 +193,6 @@ def index():
         metric_options=metric_options,
         metrics_chart=Markup(metrics_chart) if metrics_chart else None,
     )
-
-@app.route("/admin/upload-ehr", methods=["POST"])
-def upload_ehr():
-    is_admin = session.get("is_admin", False)
-    if not is_admin:
-        flash("❌ Admin access required", "danger")
-        return redirect(url_for("index"))
-
-    file = request.files.get("file")
-    if not file:
-        flash("❌ No file uploaded", "danger")
-        return redirect(url_for("metrics"))
-
-    try:
-        df = pd.read_csv(file)
-        ingest_ehr_dataframe(df)
-        flash("✅ EHR batch ingested successfully", "success")
-    except Exception as e:
-        flash(f"❌ Upload failed: {str(e)}", "danger")
-
-    return redirect(url_for("metrics"))
 
 @app.route("/login", methods=["POST"])
 def login():

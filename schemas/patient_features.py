@@ -67,7 +67,7 @@ class PatientFeatures(BaseModel):
     Type_Typical_aura_with_migraine: int = Field(ge=0, le=1, default=0)
     Type_Typical_aura_without_migraine: int = Field(ge=0, le=1, default=0)
 
-    class Config:
+    class ConfigDict:
         extra = "forbid"
 
 REQUIRED_COLUMNS = {"patient_id"} | set(COLUMN_MAP.keys())

@@ -485,5 +485,38 @@
             "PSI_Type_Typical aura with migraine": 0.0,
             "PSI_Type_Typical aura without migraine": 0.0
         }
+    ],
+    "20251224022142": [
+        {
+            "timestamp": "2025-12-24T08:21:42",
+            "Accuracy": 1.0,
+            "AUC": 1.0,
+            "PSI_Age": 0.0,
+            "PSI_Duration": 0.0,
+            "PSI_Frequency": 0.0,
+            "PSI_Location": 0.0,
+            "PSI_Intensity": 0.0,
+            "PSI_Nausea": 0.0,
+            "PSI_Vomit": 26.937876935366106,
+            "PSI_Phonophobia": 0.0,
+            "PSI_Photophobia": 26.937876935366106,
+            "PSI_Sensory": 26.937876935366106,
+            "PSI_Dysphasia": 26.937876935366106,
+            "PSI_Dysarthria": 0.0,
+            "PSI_Vertigo": 26.937876935366106,
+            "PSI_Tinnitus": 0.0,
+            "PSI_Hypoacusis": 0.0,
+            "PSI_Diplopia": 0.0,
+            "PSI_Defect": 0.0,
+            "PSI_Conscience": 0.0,
+            "PSI_Paresthesia": 26.937876935366106,
+            "PSI_DPF": 0.0,
+            "PSI_Type_Familial hemiplegic migraine": 0.0,
+            "PSI_Type_Migraine without aura": 26.937876935366106,
+            "PSI_Type_Other": 0.0,
+            "PSI_Type_Sporadic hemiplegic migraine": 0.0,
+            "PSI_Type_Typical aura with migraine": 0.0,
+            "PSI_Type_Typical aura without migraine": 26.937876935366106
+        }
     ]
 }
