@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, flash,render_template, request, redirect, url_for, session
 from markupsafe import Markup
 import sys, os
 import pandas as pd
@@ -11,6 +11,7 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(BASE_DIR)
 
 from etl.run_pipeline import run_pipeline
+from schemas.patient_features import ingest_ehr_dataframe
 from predict.model_loader import load_active_model, get_active_version
 from predict.feature_summary import global_feature_summary, patient_feature_contribution
 from model.metrics import load_metrics
@@ -189,6 +190,27 @@ def index():
         metric_options=metric_options,
         metrics_chart=Markup(metrics_chart) if metrics_chart else None,
     )
+
+@app.route("/admin/upload-ehr", methods=["POST"])
+def upload_ehr():
+    is_admin = session.get("is_admin", False)
+    if not is_admin:
+        flash("❌ Admin access required", "danger")
+        return redirect(url_for("index"))
+
+    file = request.files.get("file")
+    if not file:
+        flash("❌ No file uploaded", "danger")
+        return redirect(url_for("metrics"))
+
+    try:
+        df = pd.read_csv(file)
+        ingest_ehr_dataframe(df)
+        flash("✅ EHR batch ingested successfully", "success")
+    except Exception as e:
+        flash(f"❌ Upload failed: {str(e)}", "danger")
+
+    return redirect(url_for("metrics"))
 
 @app.route("/login", methods=["POST"])
 def login():

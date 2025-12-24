@@ -1,17 +1,16 @@
 import os
 import pandas as pd
-import sqlalchemy
+from data.db import get_engine, DB_PATH
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CSV_PATH = os.path.join(BASE_DIR, "data", "raw", "synthetic_ehr.csv")
-DB_PATH = os.path.join(BASE_DIR, "data", "processed", "patient_data.db")
-DB_URI = f"sqlite:///{DB_PATH}"
+
 
 def extract_from_db():
-    """Extract from Database"""
-    if not os.path.exists("data/processed/patient_data.db"):
-        raise FileNotFoundError("Database not found at data/processed/patient_data.db")
-    engine = sqlalchemy.create_engine(DB_URI)
+    if not os.path.exists(DB_PATH):
+        raise FileNotFoundError(f"Database not found at {DB_PATH}")
+
+    engine = get_engine()
     df = pd.read_sql("SELECT * FROM patient_records", engine)
     print("Extracted data from Database")
     return df
@@ -63,13 +62,16 @@ def extract_dummy():
 
 
 def extract():
-    """Unified Extraction Function"""
-    df = extract_from_csv()
-    if df is not None:
-        return df
-    
-    try:
+    """Unified Extraction Function
+    1. SQL (production-line)
+    2. CSV (batch simulation)
+    3. Dummy (testing)
+    """
+    try: 
         return extract_from_db()
     except FileNotFoundError:
-        return extract_dummy()
+        df = extract_from_csv()
+        if df is not None:
+            return df
+        return extract_dummy
 
