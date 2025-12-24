@@ -75,5 +75,5 @@ factors and prediction outcomes.
 ---
 
 ## License
-
+Source code is licensed under the MIT license.
 
