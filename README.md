@@ -48,10 +48,6 @@ This project demonstrates **full-stack Python development**, showcasing data pro
 
 ---
 
-## Structure
-
----
-
 ## ⏯️ Getting Started
 
 ---
