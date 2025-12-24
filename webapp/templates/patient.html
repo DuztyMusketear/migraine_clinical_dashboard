@@ -1,0 +1,32 @@
+<form method="POST" action="{{ url_for('index') }}" id="patientForm">
+  <div class="mb-3">
+    <label for="patient_id" class="form-label">Select Patient</label>
+    <select class="form-select" name="patient_id" required onchange="submitForm()">
+      {% for pid in patient_ids %}
+        <option value="{{ pid }}" {% if selected_patient and pid == selected_patient %}selected{% endif %}>{{ pid }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</form>
+
+<script>
+function submitForm() {
+    document.getElementById("patientForm").submit();
+}
+</script>
+
+{% if has_patient %}
+  <hr class="my-4">
+
+  <h4 class="mb-2">Predicted Visual Aura: {{ prediction }}</h4>
+  <p class="mb-3">Probability: {{ probability|round(3) }}</p>
+
+   <hr class="mb-4"> <!-- line under probability -->
+
+  <h5 class="mb-3">Patient Data</h5>
+  <div style="overflow-x:auto;" class="mb-4">
+    {{ patient_row.to_html(classes="table table-striped table-sm")|safe }}
+  </div>
+{% else %}
+  <p class="text-muted mt-3">No patient selected.</p>
+{% endif %}

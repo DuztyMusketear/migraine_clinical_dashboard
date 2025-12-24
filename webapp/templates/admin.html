@@ -1,0 +1,33 @@
+{% if is_admin %}
+  <div class="alert alert-success">You are logged in as Admin.</div>
+  <form method="GET" action="{{ url_for('logout') }}">
+    <button class="btn btn-danger">Logout</button>
+  </form>
+
+  <hr>
+  <h5>Admin Controls</h5>
+  <!-- Updated retrain button -->
+  <form method="POST" action="{{ url_for('index') }}" class="d-inline me-2">
+    <button type="submit" name="retrain" class="btn btn-warning">Retrain Model</button>
+  </form>
+
+{% else %}
+  <h5>Admin Login</h5>
+  <div class="alert alert-info">
+    <p><strong>Demo Credentials:</strong></p>
+    <p>Username: <code>{{ admin_username }}</code></p>
+    <p>Password: <code>{{ admin_password }}</code></p>
+  </div>
+
+  <form method="POST" action="{{ url_for('login') }}">
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" name="username" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+{% endif %}

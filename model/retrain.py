@@ -3,6 +3,7 @@ import json
 import joblib
 from datetime import datetime
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, roc_auc_score
 from model.drift import population_stability_index
 from model.metrics import log_metrics
 
@@ -12,13 +13,31 @@ REGISTRY_PATH = os.path.join(MODEL_DIR, "registry.json")
 
 def retrain_model(df):
     """Retrain model on current data and save as a new version."""
-    # Split features & target
-    X = df.drop(columns=["Visual", "patient_id"], errors="ignore")
-    y = df["Visual"]
+    
+    TARGET_COL = "Visual"
+    FEATURE_COLS = [c for c in df.columns if c != TARGET_COL and c != "patient_id"]
+
+    X = df[FEATURE_COLS]
+    y = df[TARGET_COL]
+
+    # Drop rows with missing target
+    valid_idx = y.notna()
+    X = X.loc[valid_idx]
+    y = y.loc[valid_idx]
+
+    if X.empty:
+        print("No valid training data available! Skipping retrain.")
+        return None
 
     # Train model
     model = LogisticRegression(max_iter=1000)
     model.fit(X, y)
+
+    y_pred = model.predict(X)
+    y_proba = model.predict_proba(X)[:, 1]
+
+    accuracy = accuracy_score(y, y_pred)
+    auc = roc_auc_score(y, y_proba)
 
     # Create new version folder
     version = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -46,7 +65,13 @@ def retrain_model(df):
         for col in X.columns
     }
 
-    log_metrics(version, psi_scores)
+    metrics = {
+        "Accuracy": round(accuracy, 4),
+        "AUC": round(auc, 4),
+        **psi_scores
+    }
+
+    log_metrics(version, metrics)
 
 
     # Update registry.json
@@ -67,5 +92,7 @@ def retrain_model(df):
     with open(REGISTRY_PATH, "w") as f:
         json.dump(registry, f, indent=4)
 
+    print(f"Registry path: {REGISTRY_PATH}")
+    print("Registry contents after retrain:", json.dumps(registry, indent=4))
     print(f"Model retrained and activated: {version}")
     return model

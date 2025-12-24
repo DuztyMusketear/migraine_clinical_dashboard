@@ -1,0 +1,49 @@
+{% if has_patient %}
+  <h5>Feature Contributions for Patient {{ selected_patient }}</h5>
+  <div style="overflow-x:auto;">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="text-center">Contribution</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for _, row in feature_contrib.iterrows() %}
+          <tr>
+            <td>{{ row.Feature }}</td>
+            <td class="text-center">{{ row.Contribution|round(3) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h5 class="mt-4">Global Feature Importance (Odds Ratios)</h5>
+  <div style="overflow-x:auto;">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="text-center">Coefficient</th>
+          <th class="text-center">Odds Ratio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for _, row in global_feature_imp.iterrows() %}
+            <tr>
+              <td>{{ row.Feature }}</td>
+              <td class="text-center">
+                {{ row.Coefficient | default(0) | round(3) }}
+              </td>
+              <td class="text-center">
+                {{ row.Odds_Ratio | default(1) | round(3) }}
+              </td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p class="text-muted">Select a patient to view feature analysis.</p>
+{% endif %}
