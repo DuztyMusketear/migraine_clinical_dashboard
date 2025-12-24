@@ -70,6 +70,18 @@ factors and prediction outcomes.
 
 ---
 
-## License
-Source code is licensed under the MIT license.
+### License
 
+Source code is licensed under the [MIT license](https://opensource.org/license/mit).
+
+---
+### Sources
+
+* Joppeková, Ľ., Pinto, M. J., da Costa, M. D., Boček, R., Berman, G., Salim, Y., Akhtanova, D.,
+Abzalbekova, A., MaassenVanDenBrink, A., & Lampl, C. (2025). What does a migraine
+aura look like?—A systematic review. The Journal of Headache and Pain, 26(1). https://
+doi.org/10.1186/s10194-025-02080-6
+
+* Kitamura, E., & Imai, N. (2024). Molecular and Cellular Neurobiology of Spreading
+Depolarization/Depression and Migraine: A Narrative Review. International Journal of
+Molecular Sciences, 25(20), 11163. https://doi.org/10.3390/ijms252011163
