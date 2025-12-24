@@ -20,7 +20,7 @@ This project demonstrates **full-stack Python development**, showcasing data pro
 
 ---
 
-## 🛠️ Backend
+## 🔙 Backend
 
 - **Python 3.12** – Core application logic.  
 - **Flask** – Web framework for the interactive dashboard.  
@@ -45,4 +45,35 @@ This project demonstrates **full-stack Python development**, showcasing data pro
 - **Clean Code Practices** – Modular, testable Python code for maintainability.  
 - **Role-Based Access** – Admin vs general user dashboard access.  
 - **Metrics Logging** – Track and display model performance across versions.
-- 
+
+---
+
+## Structure
+
+---
+
+## ⏯️ Getting Started
+
+---
+
+## 🔍Background
+
+During a migraine, up to 30% of individuals experience a transitory disturbance in
+neurological function referred to as a migraine aura (Joppeková et al.,2025). Migraine auras
+can affect vision, hearing, language, touch, and motor skills. Visual auras, in particular, have
+been associated with cortical spreading depression (CSD) (Kitamura & Imai, 2024). CSD is a
+depolarization of neuronal and glial cells, leading to neuronal swelling followed by a
+depression of electrical activity (Joppeková et al.,2025). Previous studies have focused on the
+neurophysiology and genetic factors underlying migraine auras; however, there is limited
+research on predicting the manifestation of an aura during a migraine. To address this gap,
+we performed an exploratory data analysis (EDA) on a dataset comprised of 400 clinical
+observations of patients experiencing migraines. Through our EDA, we developed a
+predictive model capable of classifying whether a patient will experience a visual aura. This
+model will be integrated into a dashboard, enabling healthcare professionals to visualize risk
+factors and prediction outcomes.
+
+---
+
+## License
+
+
