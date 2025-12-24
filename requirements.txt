@@ -1,11 +1,9 @@
 pandas
 numpy
 scikit-learn
-streamlit
-fastapi
-uvicorn
 sqlalchemy
-psycopg2-binary
-pydantic
-matplotlib
-seaborn
+Flask
+joblib
+plotly
+pytest
+anyio
