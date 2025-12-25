@@ -73,10 +73,8 @@ python etl/run_etl.py
 python webapp/app.py
 ```
 The dashboard will be available at:
+  * `http://127.0.0.1:5000` (or URL shown in terminal)
 
-```bash
-http://127.0.0.1:5000
-```
 ----
 
 
