@@ -50,7 +50,35 @@ This project demonstrates **full-stack Python development**, showcasing data pro
 
 ## ⏯️ Getting Started
 
----
+### Clone the Repository
+
+```bash
+git clone https://github.com/DuztyMusketear/migraine-clinical-dashboard.git
+cd migraine-clinical-dashboard
+```
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Run the ETL Pipeline
+
+```bash
+python etl/run_etl.py
+```
+### Start Flask Application
+
+```bash
+python webapp/app.py
+```
+The dashboard will be available at:
+
+```bash
+http://127.0.0.1:5000
+```
+----
+
 
 ## 🔍Background
 
