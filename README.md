@@ -8,7 +8,8 @@ A **Python Flask** web application for predicting visual auras and analyzing pat
 This project demonstrates **full-stack Python development**, showcasing data processing, machine learning integration, and web application deployment.
 
 
-#### 📘 **Demo:** [View](WEB_APP_DEMO.md) a walkthrough of the application, including user flows, model behavior, and administrative workflows.
+📘 **Demo:** View a walkthrough of the application, including user flows, model behavior, and administrative workflows.  
+👉 [Clinical Dashboard Demo](WEB_APP_DEMO.md)
 
 ### **Key Features**
 
