@@ -10,12 +10,6 @@ import uuid
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(BASE_DIR)
 
-VOLUME_PATH = os.environ.get("RAILWAY_VOLUME_MOUNT_PATH", os.path.join(BASE_DIR, "model"))
-MODEL_VERSION = "v1"
-MODEL_FILE = os.path.join(VOLUME_PATH, MODEL_VERSION, "logistic_model.joblib")
-REGISTRY_FILE = os.path.join(VOLUME_PATH, "registry.json")
-LEGACY_MODEL_FILE = os.path.join(VOLUME_PATH, "legacy", "logistic_model.joblib")
-
 from etl.run_pipeline import run_pipeline
 from schemas.patient_features import ingest_ehr_dataframe
 from predict.model_loader import load_active_model, get_active_version
