@@ -1,7 +1,7 @@
 import os
 import json
 import shutil
-from save_best_model import train_and_save_model  # import the function
+from .save_best_model import train_and_save_model  # import the function
 
 def main(version="v1"):
     """Ensure model is trained, then register version"""

@@ -27,6 +27,10 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password123")
 
+print("CWD:", os.getcwd())
+print("PYTHONPATH:", sys.path)
+print("Exists:", os.path.exists("../model/save_best_model.py"))
+
 #Include Only for Render Startup
 save_pretrained_model.main("v1")  # trains, saves, registers if needed
 
