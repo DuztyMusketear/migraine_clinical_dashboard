@@ -95,7 +95,91 @@ model will be integrated into a dashboard, enabling healthcare professionals to 
 factors and prediction outcomes.
 
 ---
+## 📊 Data
+---
 
+## Source
+* **Dataset:** `migraine_symptom_classification.csv`
+  
+* **Primary Source:** Kaggle
+  (https://www.kaggle.com/code/use9009/migraine-symptom-classification).
+  
+* **Original Publication:** Code Ocean
+ (https://doi.org/10.24433/CO.2826453.v1) as
+
+The dataset contains 400 clinical observations of migraine patients, including demographic data, symptom characteristics, and neurological indicators relevant to aura manifestation.
+
+---
+## Preprocessing
+
+Several preprocessing steps were applied to improve data quality and model reliability:
+
+ ### 🟡 **Duplicates:**
+
+We had 6 duplicate rows present in the dataset; these rows were dropped from the
+dataset. Duplicates were removed to prevent artificially inflating pattern frequencies.
+
+### 🟡 **Outliers:** 
+
+For our numeric variables, age had four outliers (68, 70, 69, and 77). These outliers were
+retained, as they are realistic for our clinical dataset and could help demonstrate age-related
+patterns(Aguinis et al., 2013).
+
+### 🟡 **Categorical Encoding:**
+
+* `Type` contained 7 categories
+* One-hot encoding was applied, creating 6 dummy variables (one baseline category removed to avoid multicollinearity)
+
+### 🟡 **Low Variance Features:**
+
+ * Ataxia (0.0), Dysarthria(0.0025), Diplopia(0.005), and Hypoacusis(0.0148) 
+ * Ataxia was dropped from the dataset.
+
+### 🟡 **Multicollinearity:**
+
+  * Strong correlations:
+  * Location & Character (0.93)
+  * Phonophobia & Photophobia(0.70)
+  * Location and Intensity (0.66)
+  * Character and Intensity (0.65)
+ *  `Character` was dropped as Location is necessary in the clinical diagnosis of a migraine.
+
+### 🟡 **Data Coding:**
+
+ * `Visual` & `Sensory` contained values > 1.
+ * All values > 1 were re-coded to 1.
+---
+
+## 🤖 Models
+
+Three classification models were developed and evaluated to predict whether a patient will experience a visual migraine aura: Logistic Regression, Random Forest, and Support Vector Machine (SVM). All models were trained and evaluated using consistent preprocessing and hyperparameter tuning. To improve generalizability, `GridSearchCV` with 5-fold cross-validation was used for systematic tuning
+
+### 🧮 Logistic Regression
+
+LG Predicts the probability of binary outcomes using a decision threshold and a sigmoid curve
+to convert probabilities into 0 and 1. Logistic regression has been used in the medical field to
+handle binary classification problems such as disease diagnosis and disease risk
+prediction(Ma, 2024).
+
+
+### 🌳 Random Forest
+
+Random Forest uses multiple decision trees to make predictions using a majority vote for
+classification. Each tree is trained on a random subset of the data to reduce overfitting.
+Random Forest performs well on classification predictions using a small dataset with high
+dimensionality(Audemard et al., 2022).
+
+
+### 🌽 Support Vector Machine (SVM)
+
+SVM creates a decision boundary (hyperplane) between two classes and attempts to
+maximize the margin between the two. When data is not linearly separable, kernels can be
+used to transform input data to a higher dimension where the data becomes linearly
+separable, and a hyperplane can be created. SVM is capable of working with small samples
+and high dimensionality, and offers good generalizability (Zhou et al., 2022).
+
+
+---
 ### License
 
 Source code is licensed under the [MIT license](https://opensource.org/license/mit).
