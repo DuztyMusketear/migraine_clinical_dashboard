@@ -97,7 +97,7 @@ factors and prediction outcomes.
 ---
 # 📊 Data
 
-## Source Data
+## ℹ️ Source Data
 * **Dataset:** `migraine_symptom_classification.csv`
   
 * **Primary Source:** Kaggle
@@ -235,6 +235,7 @@ doi.org/10.54254/2753-8818/36/20240614
 severe acute myocardial infarction. Frontiers in physiology, 13, 991990. https://
 doi.org/10.3389/fphys.2022.991990
 
+---
 
 ## 📜 License
 
