@@ -18,8 +18,16 @@ from model.metrics import load_metrics
 from model.retrain import retrain_model
 from model import save_pretrained_model
 
-load_dotenv()
+# --- Ensure model exists at startup ---
+MODEL_VERSION = "v1"
+try:
+    save_pretrained_model.main(MODEL_VERSION)
+except Exception as e:
+    print("Error during model setup:", e)
+    raise e
 
+
+load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey")
 
@@ -27,12 +35,14 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password123")
 
-print("CWD:", os.getcwd())
-print("PYTHONPATH:", sys.path)
-print("Exists:", os.path.exists("../model/save_best_model.py"))
-
-#Include Only for Render Startup
-save_pretrained_model.main("v1")  # trains, saves, registers if needed
+# --- Load model now that it is guaranteed ---
+try:
+    model = load_active_model()
+    active_version = get_active_version()
+    print(f"Active model version loaded: {active_version}")
+except FileNotFoundError as e:
+    print("Failed to load active model:", e)
+    raise e
 
 @app.route("/metrics")
 def metrics():
