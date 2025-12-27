@@ -1,6 +1,6 @@
 from flask import Flask, flash,render_template, request, redirect, url_for, session
 from markupsafe import Markup
-import sys, os
+import sys, os, shutil
 import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
@@ -9,6 +9,26 @@ import uuid
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(BASE_DIR)
+
+# --- Railway volume path ---
+VOLUME_PATH = os.environ.get("RAILWAY_VOLUME_MOUNT_PATH", os.path.join(BASE_DIR, "model"))
+os.makedirs(VOLUME_PATH, exist_ok=True)
+print(f"Volume path: {VOLUME_PATH}")
+
+# --- Copy necessary model files to volume (messy fix) ---
+REQUIRED_FILES = [
+    "metrics.py",
+    "save_pretrained_model.py",
+    "save_best_model.py",
+    "retrain.py",
+]
+for fname in REQUIRED_FILES:
+    src = os.path.join(BASE_DIR, "model", fname)
+    dst = os.path.join(VOLUME_PATH, fname)
+    if not os.path.exists(dst):
+        print(f"Copying {fname} to volume...")
+        shutil.copy2(src, dst)
+
 
 from etl.run_pipeline import run_pipeline
 from schemas.patient_features import ingest_ehr_dataframe
