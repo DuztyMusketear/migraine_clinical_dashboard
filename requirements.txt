@@ -7,3 +7,5 @@ joblib
 plotly
 pytest
 anyio
+python-dotenv
+MarkupSafe
