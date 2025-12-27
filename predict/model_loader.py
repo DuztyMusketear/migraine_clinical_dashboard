@@ -20,14 +20,15 @@ def load_active_model():
     """Load the active model"""
     version = get_active_version()
 
-    if version == "legacy":
-        raise FileNotFoundError("No versioned model yet")
+    model_path = os.path.join(BASE_DIR, "model", version, "logistic_model.joblib")
 
-    model_path = os.path.join(
-        BASE_DIR, "model", version, "logistic_model.joblib"
-    )
+    # Fallback to legacy if active model missing
+    if not os.path.exists(model_path):
+        print(f"Warning: Active model '{version}' not found. Falling back to legacy.")
+        version = "legacy"
+        model_path = os.path.join(BASE_DIR, "model", version, "logistic_model.joblib")
 
     if not os.path.exists(model_path):
-        raise FileNotFoundError(f"Model file not found: {model_path}")
+        raise FileNotFoundError(f"No model file found for '{version}'")
 
     return joblib.load(model_path)
