@@ -16,6 +16,7 @@ from predict.model_loader import load_active_model, get_active_version
 from predict.feature_summary import global_feature_summary, patient_feature_contribution
 from model.metrics import load_metrics
 from model.retrain import retrain_model
+from model import save_pretrained_model
 
 load_dotenv()
 
@@ -25,6 +26,10 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey")
 # Admin credentials
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password123")
+
+#Include Only for Render Startup
+if not os.path.exists(os.path.join(BASE_DIR, "model", "v1", "logistic_model.joblib")):
+    save_pretrained_model.main("v1")  # call the function that creates & registers the model
 
 @app.route("/metrics")
 def metrics():
