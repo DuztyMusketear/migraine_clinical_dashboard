@@ -3,10 +3,12 @@
 A **Python Flask** web application for predicting visual auras and analyzing patient feature contributions using EHR data. The system includes a complete **ETL pipeline** from raw clinical data to an interactive dashboard for clinicians and researchers.
 
 
-
 ## 🎯 Project Overview
 
 This project demonstrates **full-stack Python development**, showcasing data processing, machine learning integration, and web application deployment.
+
+
+#### 📘 **Demo:** [View](WEB_APP_DEMO.md) a walkthrough of the application, including user flows, model behavior, and administrative workflows.
 
 ### **Key Features**
 
@@ -17,6 +19,7 @@ This project demonstrates **full-stack Python development**, showcasing data pro
 🟢 **User Management** – Admin interface for model retraining and version metrics.  
 🟢 **ETL Pipeline** – Automated extraction, transformation, and loading of raw EHR data.  
 🟢 **Model Integration** – Dynamic loading and predictions using **scikit-learn** models.  
+
 
 ---
 
