@@ -8,10 +8,11 @@ import sys
 VERSION = sys.argv[1] if len(sys.argv) > 1 else "v1"
 
 # Paths (relative to model/)
-OLD_MODEL_PATH = "logistic_model.pkl"
-VERSIONED_FOLDER = VERSION
+BASE_DIR = os.path.dirname(__file__)  # model/ folder
+OLD_MODEL_PATH = os.path.join(BASE_DIR, "logistic_model.pkl")
+VERSIONED_FOLDER = os.path.join(BASE_DIR, VERSION)
 NEW_MODEL_PATH = os.path.join(VERSIONED_FOLDER, "logistic_model.joblib")
-REGISTRY_PATH = "registry.json"
+REGISTRY_PATH = os.path.join(BASE_DIR, "registry.json")
 
 # --- SAFETY CHECK ---
 if not os.path.exists(OLD_MODEL_PATH):
