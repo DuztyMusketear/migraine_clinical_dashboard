@@ -96,7 +96,6 @@ factors and prediction outcomes.
 
 ---
 # 📊 Data
----
 
 ## Source Data
 * **Dataset:** `migraine_symptom_classification.csv`
@@ -204,6 +203,7 @@ reduction techniques. Initially, in my EDA, I used PCA to help reduce the dimens
 18 principal components; however, I did not use the PCs with the three classification
 models.
 
+---
 
 ##  📚 References
 
