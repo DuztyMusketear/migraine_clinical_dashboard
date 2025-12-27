@@ -65,12 +65,6 @@ cd migraine-clinical-dashboard
 ```bash
 pip install -r requirements.txt
 ```
-
-### Run the ETL Pipeline
-
-```bash
-python etl/run_etl.py
-```
 ### Start Flask Application
 
 ```bash
