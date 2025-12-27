@@ -2,28 +2,33 @@ import os
 import joblib
 import json
 import shutil
+import sys
 
-# --- Paths (relative to this script in model/) ---
-old_model_path = "logistic_model.pk1"  # pre-trained model in the same folder as this script
+# --- CONFIG ---
+VERSION = sys.argv[1] if len(sys.argv) > 1 else "v1"
 
-if not os.path.exists(old_model_path):
-    raise FileNotFoundError(f"{old_model_path} not found. Make sure you have trained the model first.")
+# Paths (relative to model/)
+OLD_MODEL_PATH = "logistic_model.pkl"
+VERSIONED_FOLDER = VERSION
+NEW_MODEL_PATH = os.path.join(VERSIONED_FOLDER, "logistic_model.joblib")
+REGISTRY_PATH = "registry.json"
 
-# Versioned folder
-version = "v1"
-versioned_folder = os.path.join("v1")  # creates model/v1 relative to current folder
-os.makedirs(versioned_folder, exist_ok=True)
+# --- SAFETY CHECK ---
+if not os.path.exists(OLD_MODEL_PATH):
+    raise FileNotFoundError(
+        f"{OLD_MODEL_PATH} not found. Train the model first."
+    )
 
-# New model path (expected by load_active_model)
-new_model_path = os.path.join(versioned_folder, "logistic_model.joblib")
+# --- CREATE VERSION FOLDER ---
+os.makedirs(VERSIONED_FOLDER, exist_ok=True)
 
-# Copy the model to the versioned folder and rename
-shutil.copy2(old_model_path, new_model_path)
+# --- COPY MODEL ---
+shutil.copy2(OLD_MODEL_PATH, NEW_MODEL_PATH)
 
-# Create registry.json pointing to the active version
-registry_path = "registry.json"  # stays in model/ folder
-with open(registry_path, "w") as f:
-    json.dump({"active": version}, f, indent=2)
+# --- UPDATE REGISTRY ---
+with open(REGISTRY_PATH, "w") as f:
+    json.dump({"active": VERSION}, f, indent=2)
 
-print(f"Model copied to {new_model_path}")
-print(f"Registry created at {registry_path} pointing to version '{version}'")
+print(f"Model registered as {VERSION}")
+print(f"Saved to {NEW_MODEL_PATH}")
+print(f"Registry updated → active={VERSION}")

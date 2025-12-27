@@ -28,6 +28,6 @@ best_lr = grid_lr.best_estimator_
 
 #Save Model
 os.makedirs("model", exist_ok=True)
-joblib.dump(best_lr, os.path.join("model", "logistic_model.pk1"))
+joblib.dump(best_lr, os.path.join("model", "logistic_model.pkl"))
 
-print("Best Logistic Regression Model Saved to: model/logistic_model.pk1")
+print("Best Logistic Regression Model Saved to: model/logistic_model.pkl")
