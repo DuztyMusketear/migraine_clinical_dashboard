@@ -9,3 +9,4 @@ pytest
 anyio
 python-dotenv
 MarkupSafe
+pydantic
