@@ -17,14 +17,12 @@ from predict.feature_summary import global_feature_summary, patient_feature_cont
 from model.metrics import load_metrics
 from model.retrain import retrain_model
 from model import save_pretrained_model
+from model.save_pretrained_model import main as register_model
 
-# --- Ensure model exists at startup ---
+# Path to the versioned model
 MODEL_VERSION = "v1"
-try:
-    save_pretrained_model.main(MODEL_VERSION)
-except Exception as e:
-    print("Error during model setup:", e)
-    raise e
+MODEL_FILE = os.path.join(BASE_DIR, "model", MODEL_VERSION, "logistic_model.joblib")
+REGISTRY_FILE = os.path.join(BASE_DIR, "model", "registry.json")
 
 
 load_dotenv()
@@ -35,7 +33,26 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecretkey")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password123")
 
-# --- Load model now that it is guaranteed ---
+# --- Ensure model & registry exist before anything else ---
+if not os.path.exists(MODEL_FILE):
+    print(f"Model file not found at {MODEL_FILE}. Training and registering now...")
+    try:
+        register_model(MODEL_VERSION)
+    except Exception as e:
+        print("Error during model setup:", e)
+        raise e
+else:
+    print(f"Model file exists: {MODEL_FILE}")
+
+# If registry.json is missing, create a default one pointing to current version
+if not os.path.exists(REGISTRY_FILE):
+    print(f"Registry not found at {REGISTRY_FILE}. Creating default registry...")
+    os.makedirs(os.path.dirname(REGISTRY_FILE), exist_ok=True)
+    import json
+    with open(REGISTRY_FILE, "w") as f:
+        json.dump({"active": MODEL_VERSION}, f, indent=2)
+
+# --- Load the active model ---
 try:
     model = load_active_model()
     active_version = get_active_version()
