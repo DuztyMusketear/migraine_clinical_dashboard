@@ -1,28 +1,26 @@
 import os
 import json
 import shutil
-import sys
+from save_best_model import train_and_save_model  # import the function
 
-def register_model(version="v1"):
-    """Register a pre-trained model under a version and update registry.json"""
+def main(version="v1"):
+    """Ensure model is trained, then register version"""
     
-    # Paths (relative to this script in model/)
-    BASE_DIR = os.path.dirname(__file__)  # model/ folder
+    BASE_DIR = os.path.dirname(__file__)
     OLD_MODEL_PATH = os.path.join(BASE_DIR, "logistic_model.pkl")
     VERSIONED_FOLDER = os.path.join(BASE_DIR, version)
     NEW_MODEL_PATH = os.path.join(VERSIONED_FOLDER, "logistic_model.joblib")
     REGISTRY_PATH = os.path.join(BASE_DIR, "registry.json")
 
-    # Safety check
+    # Train model if .pkl doesn't exist
     if not os.path.exists(OLD_MODEL_PATH):
-        raise FileNotFoundError(
-            f"{OLD_MODEL_PATH} not found. Train the model first."
-        )
+        print("No trained model found. Training now...")
+        train_and_save_model()
 
     # Create version folder
     os.makedirs(VERSIONED_FOLDER, exist_ok=True)
 
-    # Copy model to versioned folder
+    # Copy to versioned folder
     shutil.copy2(OLD_MODEL_PATH, NEW_MODEL_PATH)
 
     # Update registry
@@ -33,8 +31,8 @@ def register_model(version="v1"):
     print(f"Saved to {NEW_MODEL_PATH}")
     print(f"Registry updated → active={version}")
 
-
-# Optional: allow running from command line
+# CLI support
 if __name__ == "__main__":
+    import sys
     ver = sys.argv[1] if len(sys.argv) > 1 else "v1"
-    register_model(ver)
+    main(ver)

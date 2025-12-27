@@ -28,8 +28,7 @@ ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password123")
 
 #Include Only for Render Startup
-if not os.path.exists(os.path.join(BASE_DIR, "model", "v1", "logistic_model.joblib")):
-    save_pretrained_model.main("v1")  # call the function that creates & registers the model
+save_pretrained_model.main("v1")  # trains, saves, registers if needed
 
 @app.route("/metrics")
 def metrics():
